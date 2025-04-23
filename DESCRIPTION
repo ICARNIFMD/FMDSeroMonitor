@@ -1,11 +1,10 @@
 Package: FMDSeroMonitor
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: R package for Program for estimation of state-level sero-prevalence rate Estimation of national level DIVA-positivity rates FMDV infection
+Version: 0.0.1
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Samarendra", "Das", , "Samarendra.das@icar.org.in", role = c("aut", "cre"))
+Description: This package is used to estimate the state and national level sero conversion parameters against FMD vaccination, access the impact of a vaccination and estimation of herd immunity against FMD
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
