@@ -3,7 +3,9 @@ Title: R package for Program for estimation of state-level sero-prevalence rate 
 Version: 0.0.1
 Authors@R: 
     person("Samarendra", "Das", , "Samarendra.das@icar.org.in", role = c("aut", "cre"))
-Description: This package is used to estimate the state and national level sero conversion parameters against FMD vaccination, access the impact of a vaccination and estimation of herd immunity against FMD
+Description: This package is used to estimate state-level and national-level seroconversion parameters
+  against FMD vaccination, assess the impact of vaccination, and estimate herd immunity levels
+  against Foot-and-Mouth Disease (FMD) in bovine populations.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

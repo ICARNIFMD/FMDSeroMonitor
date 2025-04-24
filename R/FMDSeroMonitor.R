@@ -2,28 +2,25 @@
 # Program for estimation of state-level sero-prevalence rates  #
 # Estimation of national level DIVA-positivity rates FMDV infection           #
 ###############################################################################
-#'
+#'@Title  R package for Program for estimation of state-level sero-prevalence rate Estimation of national level DIVA-positivity rates FMDV infection
 #' @param Prevac A n X 3 data frame (n: number of states in the sample) obtained from sero-
 #monitoring before going for vaccination (usually collected at zero day of post-vaccination
 #                                         monitoring), where row represents the states (with row names as the names of the states), first
 #column represents the total sample collected from each state and second column represents the
-#number of protected samples, whose Ab-titre is greater than pre-fixed threshold value (e.g. 1.65 in
-#                                                                                       log2 scale).
+#number of protected samples, whose Ab-titre is greater than pre-fixed threshold value (e.g. 1.65 in                                                                                    log2 scale).
 #' @param Postvac A n X 3 data frame (n: number of states in the sample) obtained from sero-
-#monitoring after vaccination (usually collected at 28 day of post-vaccination monitoring), where row
+#monitoring after vaccination (usually collected at 28 day of post vaccination monitoring), where row
 #represents the states (with row names as the names of the states), first column represents the total
 #sample collected from each state and second column represents the number of protected samples,
-#whose Ab-titre is greater than pre-fixed threshold value (e.g. 1.65 in log2 scale) (state/row names in
-#                                                                                    both Prevac and Postvac data frame should match).
+#whose Ab-titre is greater than pre-fixed threshold value (e.g. 1.65 in log2 scale) (state/row names in                                                                               both Prevac and Postvac data frame should match).
 #' @param Census_Data Animal census N X 1 data frame (state wise bovine population), where rows
-#are states and column is the bovine population (cattle + buffalo) (e.g. N = 28 before 2014 &amp; N= 29
-#                                                                   after 2014) (row names of the Census_Data should match with those of Prevac and Postvac).
-#'
-#' @return
-#' @export
-#'
+#are states and column is the bovine population (cattle + buffalo) (e.g. N = 28 before 2014 &amp; N= 29                                                            after 2014) (row names of the Census_Data should match with those of Prevac and Postvac)
+#' @return it will give the state estimate, national estimate, vaccination impact
+#' @export FMDSeroMonitor
 #' @examples
-SeroMonitor <- function (Prevac, Postvac, Census_Data) {
+#' # Example usage (ensure 'prevac', 'postvac', and 'CensusData' are available in your environment)
+#'
+FMDSeroMonitor <- function (Prevac, Postvac, Census_Data) {
   if(!is.matrix(Prevac) & !is.data.frame(Prevac) & class(Prevac)[1] != "dgCMatrix")
     stop("Wrong input data type of 'Prevac data'")
   if(!is.matrix(Postvac) & !is.data.frame(Postvac) & class(Postvac)[1] != "dgCMatrix")
@@ -212,89 +209,4 @@ SeroMonitor <- function (Prevac, Postvac, Census_Data) {
                  Vaccination.impact = impac)
   #save(result, "Result.pdf")
   return(result)
-}
-#################Server program
-Seromonitor_bg <- function (Prevac, Postvac) {
-  result <- SeroMonitor (Prevac =Prevac, Postvac = Postvac, Census_Data = census)
-
-  rtffile <- RTF("Ouput.doc")
-  addParagraph(rtffile, "Table 1: State level estimation of herd immunity at prevaccination.\n")
-  addTable(rtffile, data.frame(result$StateEst.Prevaccination), font.size=9, row.names=T)
-  #done(rtffile)
-  addParagraph(rtffile, "\n\nTable 2: State level estimation of herd immunity at postvaccination.\n")
-  addTable(rtffile, result$StateEst.Postvaccination, font.size=9, row.names=T)
-  addParagraph(rtffile, "\n\nTable 3: National level estimation of herd immunity.\n")
-  addTable(rtffile, result$National.Estimate, font.size=9, row.names=T)
-  addParagraph(rtffile, "\n\nTable 4: Impact of vaccination.\n")
-  addTable(rtffile, result$Vaccination.impact, font.size=9, row.names=T)
-  done(rtffile)
-  return(result)
-}
-
-############Visualization of FMD virus sero-prevalence across states in India Map
-Seromonitor.map <- function(Prevac, Postvac, shape = coord){
-
-  if (any(is.na(match(rownames(Prevac), shape$ST_NM))) == TRUE)
-    warning("State names in input prevac data do not match with names given in server, please write correctly")
-  if (any(is.na(match(rownames(Postvac), shape$ST_NM))) == TRUE)
-    warning("State names in input post vac data do not match with names given in server, please write correctly")
-
-  #N <- nrow(na.omit(Census_Data))
-  n1 <- nrow (Prevac)         #######number of states considered in sampling (prevaccination)
-  n2 <-  nrow (Postvac)
-  m1i <- as.numeric(Prevac[, 1])  #####number random samples from states during pre-vaccination
-  m2i <- as.numeric(Postvac[, 1])  #####number random samples from states during post-vaccination
-  prot.pre <- as.numeric(Prevac[, 2])
-  prot.po <- as.numeric(Postvac[, 2])
-  ##########Estimator
-  p1i <- prot.pre / m1i                ######state wise proportion of protected animals
-  p2i <- prot.po / m2i                ######state wise proportion of protected animals
-  remove(n1, n2, prot.pre, prot.po, m1i, m2i)
-  ############Map for prevaccination
-  #shape = readShapeSpatial("Admin2.shp")
-  id1 <- match(row.names(Prevac), shape$ST_NM)
-  id1 <- na.omit(id1)
-  id2 <- match(row.names(Postvac), shape$ST_NM)
-  id2 <- na.omit(id2)
-  prevac.prop <- vector(length = length(shape$ST_NM), mode = "numeric")
-  postvac.prop <- vector(length = length(shape$ST_NM), mode = "numeric")
-  prevac.prop[id1] <- p1i
-  prevac.prop[-id1] <- NA
-  prevac.map <- data.frame(id = shape$ST_NM, prevac.prop)
-  postvac.prop[id2] <- p2i
-  postvac.prop[-id2] <- NA
-  postvac.map <- data.frame(id = shape$ST_NM, postvac.prop)
-  #remove(DIVA.prop)
-
-  shap.1 <- fortify(shape, region = "ST_NM")
-  merge.shap.prevac <- merge(shap.1, prevac.map, by="id", all.x = TRUE)
-  merge.shap.postvac <- merge(shap.1, postvac.map, by="id", all.x = TRUE)
-  remove(shap.1)
-  prevac.plot.ind <- merge.shap.prevac[order(merge.shap.prevac$order), ]
-  postvac.plot.ind <- merge.shap.postvac[order(merge.shap.postvac$order), ]
-
-  map.prevac <- ggplot() +
-    geom_polygon(data = prevac.plot.ind,
-                 aes(x = long, y = lat, group = group, fill = prevac.prop),
-                 color = "black", linewidth = 0.25) +
-    coord_map() +
-    scale_fill_gradient(name = "Proportion", limits=c(0, max(prevac.prop)), low = 'red3', high = 'darkgreen') +
-    labs(title = "Estimated herd immunity (Prevaccination)") +
-    xlab('Longitude')+
-    ylab('Latitude') +
-    theme_bw()
-
-  map.postvac <- ggplot() +
-    geom_polygon(data = postvac.plot.ind,
-                 aes(x = long, y = lat, group = group, fill = postvac.prop),
-                 color = "black", linewidth = 0.25) +
-    coord_map() +
-    scale_fill_gradient(name = "Proportion", limits=c(0, max(postvac.prop)), low = 'red3', high = 'darkgreen') +
-    labs(title = "Estimated herd immunity (Postvaccination)") +
-    xlab('Longitude')+
-    ylab('Latitude') +
-    theme_bw()
-  map <- marrangeGrob(grobs=list(map.prevac, map.postvac), nrow=1, ncol=2)
-  ggsave("Map.pdf", map)
-  return(map)
 }
