@@ -1,3 +1,7 @@
+#' FMDSeroMonitor: Estimate State and National Level Sero-conversion Rates
+#'
+#' This function estimates the state and national level sero-conversion parameters against FMD vaccination,
+#' assesses the impact of vaccination, and estimates herd immunity against FMD.
 #' ###############################################################################
 # Program for estimation of state-level sero-prevalence rates  #
 # Estimation of national level DIVA-positivity rates FMDV infection           #
