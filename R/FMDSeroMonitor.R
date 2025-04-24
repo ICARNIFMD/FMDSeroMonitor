@@ -1,12 +1,9 @@
-#' FMDSeroMonitor: Estimate State and National Level Sero-conversion Rates
+#'@Title  R package for Program for estimation of state-level sero-prevalence rate Estimation of national level DIVA-positivity rates FMDV infection
 #'
-#' This function estimates the state and national level sero-conversion parameters against FMD vaccination,
-#' assesses the impact of vaccination, and estimates herd immunity against FMD.
 #' ###############################################################################
 # Program for estimation of state-level sero-prevalence rates  #
 # Estimation of national level DIVA-positivity rates FMDV infection           #
 ###############################################################################
-#'@Title  R package for Program for estimation of state-level sero-prevalence rate Estimation of national level DIVA-positivity rates FMDV infection
 #' @param Prevac A n X 3 data frame (n: number of states in the sample) obtained from sero-
 #monitoring before going for vaccination (usually collected at zero day of post-vaccination
 #                                         monitoring), where row represents the states (with row names as the names of the states), first
