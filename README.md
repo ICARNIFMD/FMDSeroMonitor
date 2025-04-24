@@ -1,0 +1,47 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# FMDSeroMonitor
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of FMDSeroMonitor is to estimate the state and national level
+sero conversion parameters against FMD vaccination, access the impact of
+a vaccination and estimation of herd immunity against FMD
+
+## Installation
+
+You can install the development version of FMDSeroMonitor like so:
+
+``` r
+# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(FMDSeroMonitor)
+## basic example code
+```
+
+SeroMonitor(Prevac = prevac, Postvac = postvac, Census_Data = census)
+head(prevac) Sample.size Protected.sample Andaman & Nicobar 364 61
+Andhra Pradesh 4841 727 Arunachal Pradesh 186 5 Assam 1989 185
+Chandigarh 200 71 Chhattisgarh 2152 17
+
+head(postvac) Sample.size Protected.sample Andaman & Nicobar 516 203
+Andhra Pradesh 4832 1745 Assam 1401 224 Chandigarh 200 151 Chhattisgarh
+2011 766 Delhi 247 241
+
+head(census) Population Andhra Pradesh 4600087 Arunachal Pradesh 339221
+Assam 10909239 Bihar 15397980 Chandigarh 13440 Chhattisgarh 9983954
+
+results will come as
+
+\$StateEst.Prevaccination Protectd(%) Variance SE(%) ME(%) CV(%) Andaman
+& Nicobar 16.76 3.80e-04 1.95 3.82 11.64 Andhra Pradesh 15.02 2.63e-05
+0.51 1.01 3.42 Arunachal Pradesh 2.69 1.41e-04 1.19 2.33 44.22 Assam
+9.30 4.24e-05 0.65 1.28 7.00 Chandigarh 35.50 1.13e-03 3.37 6.60 9.48
