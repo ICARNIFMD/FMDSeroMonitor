@@ -1,5 +1,5 @@
 Package: FMDSeroMonitor
-Title: R package for Program for estimation of state-level sero-prevalence rate Estimation of national level DIVA-positivity rates FMDV infection
+Title: R package for estimation of population-level seroconversion parameters and assessment of impact of vaccination against Foot-and-mouth disease
 Version: 0.0.1
 Authors@R: 
     person("Samarendra", "Das", , "Samarendra.das@icar.org.in", role = c("aut", "cre"))
